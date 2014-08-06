@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<schema name="SED2013" version="1.5">
+	<types>
+		<fieldType name="string" class="solr.StrField"
+			sortMissingLast="true" omitNorms="true" />
+		<fieldType name="int" class="solr.TrieIntField"
+			precisionStep="0" omitNorms="true" positionIncrementGap="0" />
+		<fieldType name="long" class="solr.TrieIntField"
+			precisionStep="0" omitNorms="true" positionIncrementGap="0" />
+
+		<fieldType name="text" class="solr.TextField"
+			positionIncrementGap="100">
+			<analyzer type="index">
+				<tokenizer class="solr.WhitespaceTokenizerFactory" />
+				<filter class="solr.WordDelimiterFilterFactory"
+					generateWordParts="1" generateNumberParts="1" catenateWords="1"
+					catenateNumbers="1" catenateAll="1" splitOnCaseChange="0"
+					splitOnNumerics="0" stemEnglishPossessive="1" />
+				<filter class="solr.LowerCaseFilterFactory" />
+			</analyzer>
+
+			<analyzer type="query">
+				<tokenizer class="solr.WhitespaceTokenizerFactory" />
+				<filter class="solr.WordDelimiterFilterFactory"
+					generateWordParts="1" generateNumberParts="1" catenateWords="1"
+					catenateNumbers="1" catenateAll="1" splitOnCaseChange="0"
+					splitOnNumerics="0" stemEnglishPossessive="1" />
+				<filter class="solr.LowerCaseFilterFactory" />
+			</analyzer>
+		</fieldType>
+	</types>
+
+	<fields>
+		<field name="id" type="string" indexed="true" stored="true"
+			required="true" />
+		<field name="title" type="text" indexed="true" stored="true"
+			termVectors="true" />
+		<field name="body" type="text" indexed="true" stored="true"
+			termVectors="true" />
+		<field name="url" type="string" indexed="true" stored="true"
+			termVectors="false" />
+		<field name="date" type="long" indexed="true" stored="true"
+			termVectors="false" />
+	</fields>
+
+	<uniqueKey>id</uniqueKey>
+	<defaultSearchField>text</defaultSearchField>
+	<solrQueryParser defaultOperator="OR" />
+</schema>

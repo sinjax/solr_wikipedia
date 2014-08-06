@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+  <luceneMatchVersion>LUCENE_CURRENT</luceneMatchVersion>
+  <abortOnConfigurationError>true</abortOnConfigurationError>
+
+  <!-- This index shouldn't receive updates... so these settings don't matter -->
+
+  <query>
+    <maxBooleanClauses>1024</maxBooleanClauses>
+
+    <filterCache class="solr.LRUCache" size="512" initialSize="512" autowarmCount="128"/>
+    <queryResultCache class="solr.LRUCache" size="512" initialSize="512" autowarmCount="32"/>
+    <documentCache class="solr.LRUCache" size="512" initialSize="512" autowarmCount="0"/>
+
+    <enableLazyFieldLoading>true</enableLazyFieldLoading>
+    <queryResultWindowSize>50</queryResultWindowSize>
+    <queryResultMaxDocsCached>200</queryResultMaxDocsCached>
+    <HashDocSet maxSize="3000" loadFactor="0.75"/>
+
+    <useColdSearcher>false</useColdSearcher>
+    <maxWarmingSearchers>2</maxWarmingSearchers>
+  </query>
+
+  <requestDispatcher handleSelect="true" >
+    <requestParsers enableRemoteStreaming="false" multipartUploadLimitInKB="2048" />
+    <httpCaching lastModifiedFrom="openTime" etagSeed="Solr"></httpCaching>
+  </requestDispatcher>
+  <requestHandler name="/update" class="solr.XmlUpdateRequestHandler"> </requestHandler>
+  <requestHandler name="/admin/" class="solr.admin.AdminHandlers" />
+  <requestHandler name="/select" class="solr.SearchHandler" default="true">
+  </requestHandler>
+
+</config>
